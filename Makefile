@@ -20,10 +20,6 @@ setup: ## setup resources
 	@echo "s3 bucket running: http://localhost:4572"
 	@echo "sqs queue running: http://localhost:4576"
 
-setup-prod: ## setup resources
-	./setup/prod.sh csv-streaming
-	@echo "Done"
-
 start: ## starts application with nodemon
 	npm run start
 	@echo "App is running: http://0.0.0.0:3002"
@@ -43,3 +39,19 @@ rebuild: stop  ## rebuild and start the application
 	docker-compose up -d --build
 	@echo "Localstack running: http://localhost:8080"
 
+# ----------------------
+deploy: ## setup resources on production
+	sls deploy
+	@echo "Done"
+
+deploy-file:
+	aws s3 cp testing/file.csv s3://csv-streaming
+
+s3-logs:
+	npx sls logs -f s3listener -t
+
+sqs-logs:
+	npx sls logs -f sqslistener -t
+
+sqs-queue-checker:
+	node testing/queue-checker.js

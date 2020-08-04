@@ -1,7 +1,12 @@
 # csv-streaming
 
 Serverless app to stream an CSV file from S3 bucket to SQS queue.
-You just need to have docker installed or an AWS account with linked client to run the app.
+
+## Requirements
+
+- Docker and Docker compose needs to be installed to run locally.
+- AWS account with aws client working properly.
+- Node Serverless framework client installed.
 
 ## Setup
 
@@ -82,10 +87,58 @@ You should see `get-queue-attributes` output:
 
 ### AWS Cloud
 
+Let's deploy and run it on AWS cloud.
 
-# Run setup:
-# ./scripts/setup.sh arquivos-augusto-001 file-handler /home/augusto.scher/git/rep/curso-aws-serverless-apps/07-tooling/sqs-s3-streams/scripts/s3/file.csv
-# Run logs on sqs lambda
-# npm run logs:sqslistener
-# Deploy file and you will be able to see streams on logs
-# npm run invoke:s3
+#### Deploying
+
+You obviously need to deploy it on AWS. We're using serverless-framework:
+
+```bash
+sls deploy
+```
+
+All resources (lambdas, bucket and sqs) will be created automatically.
+
+```bash
+aws sqs list-queues
+aws s3 ls | grep csv-streaming
+```
+
+#### Testing
+
+Run each command in diferent terminal:
+
+1. Sending csv file to ou s3 bucket:
+
+```bash
+aws s3 cp \
+  testing/file.csv \
+  s3://csv-streaming
+```
+
+2. Run logs on s3 bucket in AWS cloud:
+
+```bash
+npx sls logs -f s3listener -t
+```
+
+3. Run logs on sqs queue in AWS cloud:
+
+```bash
+npx sls logs -f sqslistener -t
+```
+
+It could be an option get queue size:
+```bash
+aws sqs get-queue-attributes \
+  --queue-url https://queue.amazonaws.com/824273212766/csv-streaming \
+  --attribute-names All
+```
+
+#### Removing
+
+Final step: Remove all resources, including s3 bucket and sqs queue:
+
+```bash
+sls remove
+```
