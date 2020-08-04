@@ -52,6 +52,3 @@ s3-logs:
 
 sqs-logs:
 	npx sls logs -f sqslistener -t
-
-sqs-queue-checker:
-	node testing/queue-checker.js

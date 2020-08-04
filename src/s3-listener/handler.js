@@ -75,9 +75,10 @@ class Handler {
         csvtojson(),
         this.processDataOnDemand(queueUrl, processedItems)
       );
-
+      
+      console.log(`Done. ${processedItems.count} items sended to SQS.`)
       console.log("process s3 listener finished...", new Date().toISOString());
-
+      
       return {
         statusCode: 200,
         body: `Done. ${processedItems.count} items sended to SQS.`,

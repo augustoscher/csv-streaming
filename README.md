@@ -128,13 +128,6 @@ npx sls logs -f s3listener -t
 npx sls logs -f sqslistener -t
 ```
 
-It could be an option get queue size:
-```bash
-aws sqs get-queue-attributes \
-  --queue-url https://queue.amazonaws.com/824273212766/csv-streaming \
-  --attribute-names All
-```
-
 #### Removing
 
 Final step: Remove all resources, including s3 bucket and sqs queue:
