@@ -134,7 +134,6 @@ Optionally: Upload huge csv
 aws s3 cp testing/survey_results_public.csv s3://csv-streaming
 ```
 
-
 #### Removing
 
 Final step: Remove all resources, including s3 bucket and sqs queue:
