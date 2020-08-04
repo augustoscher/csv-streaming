@@ -128,6 +128,13 @@ npx sls logs -f s3listener -t
 npx sls logs -f sqslistener -t
 ```
 
+Optionally: Upload huge csv
+
+```bash
+aws s3 cp testing/survey_results_public.csv s3://csv-streaming
+```
+
+
 #### Removing
 
 Final step: Remove all resources, including s3 bucket and sqs queue:
